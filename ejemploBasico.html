@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo Básico Ajax</title>
+    <script>
+        window.addEventListener("load", inicio);
+        function inicio(){
+            document.getElementById("btn").addEventListener("click",mostrar);
+        }
+        function mostrar(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status == 200){
+                    cambiarTexto(this);
+                }
+            };
+            xhr.open("GET","text.txt", true);
+            xhr.send();    
+        }
+        function cambiarTexto(xhr){
+            document.getElementById("text").innerHTML = xhr.responseText;
+        }
+    </script>
+</head>
+<body>
+    <h1 id="text">Cambiar Text</h1>
+    <button type="button" id="btn">Cambiar</button>
+</body>
+</html>

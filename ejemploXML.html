@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="texto">
+        <h1>Colección</h1>
+        <button id="cargaCatalogo">Cargar</button>
+    </div>   
+    <table id="tabla"></table>
+    <script>
+        document.getElementById('cargaCatalogo').addEventListener("click",cargarCatalogo);
+        function cargarCatalogo(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status == 200){
+                    cargarXML(this);
+                }                
+            };
+            xhr.open("GET","cd_catalog.xml",true);
+            xhr.send();
+        }
+        function cargarXML(xml){
+            var i;
+            var docXML = xml.responseXML;
+            var tabla = "<tr><th>Artista</th><th>Titulo</th></tr>";
+            var discos = docXML.getElementsByTagName("CD");
+            var cantDiscos = discos.length;
+            for(i = 0; i < cantDiscos; i++){
+                tabla += "<tr><td>" + 
+                    discos[i].getElementsByTagName("ARTIST")[0].childNodes[0].nodeValue +
+                "</td><td>" + 
+                discos[i].getElementsByTagName("TITLE")[0].childNodes[0].nodeValue + "</td></tr>";
+
+            }
+            document.getElementById("tabla").innerHTML = tabla;
+        }
+    </script>
+</body>
+</html>

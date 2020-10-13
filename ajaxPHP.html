@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    window.addEventListener("load", inicio);
+    function inicio() {
+        document.getElementById('personName').addEventListener("keyup", nameShow);
+    }
+    function nameShow(e) {
+        var cadena = e.target.value;
+        // var cadena = document.getElementById("personName").value;
+        if (cadena.length == 0) {
+            document.getElementById('sugerencia').innerHTML = "";
+            return;
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('sugerencia').innerHTML = this.responseText;
+                }
+            };
+            xhr.open("GET","arrayNombres.php?nombre="+cadena,true);
+            xhr.send();
+        }
+    }
+</script>
+
+<body>
+    <h1>AJAX PHP</h1>
+    <p>Escribir un nombre</p>
+    <form action="" method="">
+        <input type="text" name="personName" value="" id="personName" autocomplete="off">
+        <input type="submit" value="Enviar">
+    </form>
+    <p>Sugerencias:<span id="sugerencia"></span></p>
+</body>
+
+</html>
